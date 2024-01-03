@@ -27,13 +27,11 @@ def load_cve_data():
                 desc = data['cve']['description']['description_data'][0]['value']
 
                 cve_id = data['cve']['CVE_data_meta']['ID']
-                if 1:
-                    if cwe_id in ('NVD-CWE-noinfo', 'NVD-CWE-Other', 'NVD-noinfo'):
-                        continue
 
                 parsed.append([cve_id, desc, av])
             except:
                 continue
+        print('load %s from file: %s'%(len(parsed), i))
         all_vuls.extend(parsed)
     return all_vuls
 
@@ -51,6 +49,7 @@ def set_label(df, column_name):
 
 def build_index():
     cves = load_cve_data()
+    print(len(cves))
     df = pd.DataFrame(cves, columns=['cve_id', 'desc', 'av'])
 
     for columns in ['av']:
